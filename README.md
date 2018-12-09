@@ -1,6 +1,6 @@
 # gitlabels
 
-Sync git labels on projects from an organzation or an user
+Create, update and/or remove labels from one or more repositories of an organization or user
 
 ## Getting Started
 
