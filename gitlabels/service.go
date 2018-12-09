@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"log"
+	"net/http"
 	"regexp"
 
 	"github.com/google/go-github/github"
@@ -68,7 +69,7 @@ func (s Service) removeLabels(ctx context.Context, user, repo string, labels []s
 		err := s.git.DeleteLabel(ctx, user, repo, label)
 		if err == nil {
 			s.logger.Printf("[%s/%s] removed label:[%s]", user, repo, label)
-		} else {
+		} else if !isNotFound(err) {
 			s.logger.Printf("[%s/%s] failed to remove label:[%s], error: %v", user, repo, label, err)
 		}
 	}
@@ -81,7 +82,7 @@ func (s Service) renameLabels(ctx context.Context, user, repo string, labels map
 		err := s.git.EditLabel(ctx, user, repo, label, newLabel, labelsInfo[newLabel])
 		if err == nil {
 			s.logger.Printf("[%s/%s] renaming label from:[%s] to:[%s]", user, repo, label, newLabel)
-		} else {
+		} else if !isNotFound(err) {
 			renamed[newLabel] = nil
 			s.logger.Printf("[%s/%s] failed to rename label from:[%s] to:[%s], error: %v", user, repo, label, newLabel, err)
 		}
@@ -112,6 +113,11 @@ func (s Service) createLabels(ctx context.Context, user, repo string, labels map
 		s.logger.Printf("[%s/%s] updating label:[%s]", user, repo, name)
 	}
 	return nil
+}
+
+func isNotFound(err error) bool {
+	errorResponse, ok := err.(*github.ErrorResponse)
+	return ok && errorResponse.Response.StatusCode == http.StatusNotFound
 }
 
 func findError(errors []github.Error, code string) bool {
