@@ -43,9 +43,9 @@ func (s Service) Exec(ctx context.Context, cfg Config) error {
 			continue
 		}
 
-		s.removeLabels(ctx, cfg.getUser(), repo.GetName(), cfg.RemoveLabels)
-
 		renamed := s.renameLabels(ctx, cfg.getUser(), repo.GetName(), cfg.RenameLabels, cfg.Labels)
+
+		s.removeLabels(ctx, cfg.getUser(), repo.GetName(), cfg.RemoveLabels)
 
 		err := s.createLabels(ctx, cfg.getUser(), repo.GetName(), cfg.Labels, renamed)
 		if err != nil {
