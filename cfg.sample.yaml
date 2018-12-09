@@ -1,0 +1,16 @@
+owner: ownername
+project-regex: project-prefix-.*
+labels:
+  'issue: bug': 
+    color: 801515
+    description: this is a description
+  'issue: enhancement':
+    color: 407F7F
+  'status: do-not-merge':
+    color: D40B00
+rename:
+  'DO NOT MERGE': 'status: do-not-merge'
+remove:
+  - bug
+  - duplicate
+  - enhancement
