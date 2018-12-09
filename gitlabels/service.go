@@ -81,9 +81,9 @@ func (s Service) renameLabels(ctx context.Context, user, repo string, labels map
 	for label, newLabel := range labels {
 		err := s.git.EditLabel(ctx, user, repo, label, newLabel, labelsInfo[newLabel])
 		if err == nil {
+			renamed[newLabel] = nil
 			s.logger.Printf("[%s/%s] renaming label from:[%s] to:[%s]", user, repo, label, newLabel)
 		} else if !isNotFound(err) {
-			renamed[newLabel] = nil
 			s.logger.Printf("[%s/%s] failed to rename label from:[%s] to:[%s], error: %v", user, repo, label, newLabel, err)
 		}
 	}
