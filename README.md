@@ -13,7 +13,7 @@ Download the lastest version on github release
 `gitlabels` is configured using a `YAML` file folowing the format below:
 
 | attribute | type | mandatory | description|
-| --------- |:----:| --- | :----------|
+| --------- |:----:| :---: | :----------|
 | owner | string | :warning: | github owner |
 | org | string | :warning: | github organization, has priority over `owner` |
 | project-regex | string | :heavy_check_mark: | `regex` for project names |
